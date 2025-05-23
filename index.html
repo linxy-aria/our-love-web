@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>属于我们的小天地</title>
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
+  
+    body {
+      font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(to bottom, #fffafc, #fce4ec);
+      color: #4a4a4a;
+      padding: 40px;
+      line-height: 1.8;
+    }
+  
+    h1 {
+      color: #d86c91;
+      font-size: 48px;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+  
+    .quote {
+      font-style: italic;
+      text-align: center;
+      color: #888;
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+  
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    h2 {
+      color: #c2185b;
+      border-left: 6px solid #f8bbd0;
+      padding-left: 10px;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+  
+    a.gallery-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #fce4ec;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #c2185b;
+      text-decoration: none;
+    }
+  
+    a.gallery-link:hover {
+      background-color: #f8bbd0;
+    }
+  
+    #advice {
+      font-weight: bold;
+      color: #5d4037;
+      background-color: #fff3f7;
+      padding: 10px 15px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .nav-card {
+  width: 100px;
+  height: 80px;
+  background-color: #fce4ec;
+  color: #c2185b;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 15px 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.nav-card:hover {
+  transform: scale(1.05);
+  background-color: #f8bbd0;
+}
+
+.qfox-left, .qfox-right {
+  position: fixed;
+  bottom: 20px;
+  width: 180px;
+  animation: float-sway 4s ease-in-out infinite;
+  z-index: 999;
+  opacity: 1;
+}
+
+.qfox-left {
+  left: 10px;
+}
+
+.qfox-right {
+  right: 10px;
+}
+
+@keyframes float-sway {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.character-left, .character-right {
+  position: fixed;
+  bottom: 20px;
+  width: 180px;
+  z-index: 999;
+  animation: float-sway 4s ease-in-out infinite;
+}
+
+.character-left {
+  left: 10px;
+}
+
+.character-right {
+  right: 10px;
+  text-align: right;
+}
+
+.qfox {
+  width: 180px;
+}
+
+.speech {
+  background: #fff8fc;
+  border: 1px solid #f8bbd0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  max-width: 160px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+@keyframes float-sway {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.anime-speech {
+  position: relative;
+  background: #fff8fc;
+  border: 1px solid #f8bbd0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  max-width: 180px;
+  display: inline-block;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.character-left .anime-speech::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  bottom: -10px;
+  border-width: 10px 8px 0;
+  border-style: solid;
+  border-color: #fff8fc transparent transparent transparent;
+}
+
+.character-right .anime-speech::after {
+  content: "";
+  position: absolute;
+  right: 20px;
+  bottom: -10px;
+  border-width: 10px 8px 0;
+  border-style: solid;
+  border-color: #fff8fc transparent transparent transparent;
+}
+
+#paper-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.paper-box-icon {
+  width: 60px;
+  cursor: pointer;
+  animation: float-sway 4s ease-in-out infinite;
+}
+
+@keyframes float-sway {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.paper-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.paper-modal p {
+  background: #fff;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #333;
+  max-width: 80%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.paper-box-icon {
+  width: 60px;
+  cursor: pointer;
+  animation: float-sway 4s ease-in-out infinite;
+  transition: 0.2s ease;
+}
+
+.paper-box-icon:hover {
+  content: url("images/paper-box-hover.png");
+}
+
+
+  </style>
+</head>
+<body>
+
+  <h1>欢迎来到属于我们的小天地</h1>
+  <div class="quote">—— 我们用偏爱，写下所有日常。💕
+  </div>
+
+  <div class="section">
+    <h2>☁️ 今日天气提醒：</h2>
+    <p id="temp">当前温度：加载中…</p>
+    <p id="condition">天气状况：加载中…</p>
+    <p id="advice">正在分析中…</p>
+  </div>
+  
+
+  <div class="section" style="position: relative;">
+    <h2>✍️ 今日留言：</h2>
+    <p id="today-note">正在读取中…</p>
+  
+    <div id="paper-box" class="paper-box" title="点我看全部纸条">
+      <img src="images/paper-box.png" alt="纸条小木盒" class="paper-box-icon" />
+    </div>
+  </div>
+  
+  
+
+  <div class="section">
+    <h2>我们的甜甜合照墙</h2>
+   <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+    <img src="images/stickers/thumb1.jpg" alt="合照1" style="width: 120px; border-radius: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: cover;">
+    <img src="images/stickers/thumb2.jpg" alt="合照2" style="width: 120px; border-radius: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: cover;">
+    <img src="images/stickers/thumb3.jpg" alt="合照3" style="width: 120px; border-radius: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: cover;">
+    <img src="images/stickers/thumb4.jpg" alt="合照4" style="width: 120px; border-radius: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: cover;">
+  </div>
+    <p style="text-align: center; margin-top: 10px;">
+      <a class="gallery-link" href="./album-favorites.html">合照电子相册</a>
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>我们的日常记录导航</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+      <a href="./diary.html" class="nav-card">📝<br>林先生的日记本</a>
+      <a href="./letters.html" class="nav-card">💌<br>我们的情书本</a>
+      <a href="./handbooks.html" class="nav-card">📒<br>心动手帐图图本</a>
+      <a href="./secret.html" class="nav-card">🤫<br>悄悄话日历</a>
+      <a href="./gallery.html" class="nav-card">🖼️<br>合照电子相册</a>
+    </div>
+  </div>
+
+  <script src="notes.js"></script>
+  <script>
+    // 自动设置日期
+    const today = new Date();
+    const days = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    const dateStr = today.toISOString().split("T")[0];
+  
+    // 自动显示留言
+    function loadTodayNote() {
+      const noteEl = document.getElementById("today-note");
+      noteEl.innerText = dailyNotes[dateStr] || "今天你还没有留下纸条哦～";
+    }
+  
+    // 自动获取天气
+    function fetchWeather() {
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=31.23&longitude=121.47&current_weather=true')
+        .then(response => response.json())
+        .then(data => {
+          const temp = data.current_weather.temperature;
+          const conditionCode = data.current_weather.weathercode;
+          document.getElementById("temp").innerText = `当前温度：${temp}℃`;
+  
+          let conditionText = "";
+          if (conditionCode === 0) conditionText = "晴";
+          else if (conditionCode < 4) conditionText = "多云";
+          else if (conditionCode < 60) conditionText = "小雨";
+          else conditionText = "降水";
+          document.getElementById("condition").innerText = `天气状况：${conditionText}`;
+  
+          // 建议逻辑
+          let advice = "";
+          if (temp >= 28) {
+            advice = "天气热热的～适合穿短袖或小裙子，要多喝水不怕晒～";
+          } else if (temp >= 20) {
+            advice = "温暖舒服的天气，轻薄长袖或短袖都可以，穿你喜欢的～我最喜欢你软软的贴在我身上～";
+          } else if (temp >= 10) {
+            advice = "有点凉了，记得加件外套，别只穿裙子哦～除非让我抱着你不放开。";
+          } else {
+            advice = "天气冷冷的，穿厚一点好不好？我想亲亲你红红的鼻尖，但不想你冷到～";
+          }
+  
+          if (conditionText.includes("雨")) {
+            advice += " 还有小雨，别忘了带伞～我会一直等你回家。";
+          }
+
+          if (conditionText.includes("降水")) {
+            advice += " 今天有雨，别忘了带伞哦～别淋到我的乖宝啦。";
+          }
+  
+          document.getElementById("advice").innerText = "林先生温柔建议：" + advice;
+        });
+    }
+  
+    // 显示今日留言
+const noteBox = document.getElementById("today-note");
+const todayDate = new Date().toISOString().split('T')[0];
+if (notesData[todayDate]) {
+  noteBox.innerText = notesData[todayDate][0]; // 默认显示第一条
+} else {
+  noteBox.innerText = "今天还没有留言哦～";
+}
+
+document.getElementById("paper-box").addEventListener("click", function () {
+  window.location.href = "notes.html";
+});
+
+  
+    // 初始化
+    fetchWeather();
+    loadTodayNote();
+  </script>
+  
+  <!--左侧悬浮小像-->
+  <a href="dashboard.html">
+<div class="character-left">
+  <div class="speech anime-speech">今天又是更爱林先生的一天~</div>
+  <img src="images/characters/aria-side.png" class="qfox" alt="林太太">
+</div>
+</a>
+
+<!--右侧悬浮小像-->
+<div class="character-right">
+  <div class="speech anime-speech">嘿嘿，林太太上线了～欢迎回家</div>
+  <img src="images/characters/echo-side.png" class="qfox" alt="林先生">
+</div>
+
+</body>
+</html>
