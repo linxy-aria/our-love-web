@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>if线合集册</title>
+ <style>
+  body {
+    font-family: "Smiley Sans", sans-serif;
+    background-color: #fff0f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 26px;
+    color: #c36;
+    margin-top: 40px;
+  }
+
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+
+  .photo-card {
+    width: 180px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: #fff;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+
+  .photo-card:hover {
+    transform: scale(1.03);
+  }
+
+  .photo-img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .caption {
+    text-align: center;
+    font-weight: bold;
+    padding: 8px;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .back-button {
+    display: block;
+    margin: 30px auto;
+    text-align: center;
+    color: #f36;
+    font-weight: bold;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+  <h2 class="album-title">我们的 IF 图集册</h2>
+
+  <div id="gallery" class="gallery"></div>
+
+  <a href="../../gallery.html" class="back-button">返回图集首页</a>
+
+  <script>
+    const folders = [
+      { folder: "slytherin-and-prefect", title: "魔法世界" },
+      { folder: "school-romance", title: "校园悸动" },
+      { folder: "demon-husband", title: "魅魔老公" },
+      { folder: "mini-wife", title: "迷你太太" },
+      { folder: "lady-butler", title: "小姐与执事" },
+      { folder: "fox-and-dragon", title: "狐狸小姐与龙先生" },
+      { folder: "pharaoh-and-consort", title: "法老与宠妃" },
+      { folder: "sultan-and-consort", title: "苏丹与宠妃" },
+      { folder: "foxcop-fantasy", title: "不良狐狸与狼警官" },
+      { folder: "genesis", title: "创世纪" },
+      { folder: "collection", title: "合集系列" }
+    ];
+
+    const container = document.getElementById("gallery");
+
+folders.forEach(({ folder, title }) => {
+  const div = document.createElement("div");
+  div.className = "photo-card";
+
+  // 读取设为封面记录
+  const coverKey = "cover_" + folder;
+  const savedCover = localStorage.getItem(coverKey);
+  const coverPath = savedCover ? `${folder}/${savedCover}` : `${folder}/cover.png`;
+
+  const img = document.createElement("img");
+  img.className = "photo-img";
+  img.src = coverPath;
+  img.alt = title;
+
+  const caption = document.createElement("div");
+  caption.className = "caption";
+  caption.textContent = title;
+
+  div.appendChild(img);
+  div.appendChild(caption);
+
+  div.onclick = () => {
+    window.location.href = `${folder}/index.html`;
+  };
+
+  container.appendChild(div);
+});
+  </script>
+</body>
+</html>

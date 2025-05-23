@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>心动手帐图图本</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+
+    body {
+      font-family: 'ZCOOL KuaiLe', 'PingFang SC', sans-serif;
+      background: #fff8fc;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ec407a;
+      margin-bottom: 20px;
+    }
+
+    /* 日历容器样式 */
+    .calendar-container {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      padding: 20px;
+      background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    #calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+
+    .calendar-day {
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #555;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      position: relative;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .calendar-day:hover {
+      background: #f8bbd0;
+      color: white;
+      transform: scale(1.03);
+    }
+
+    .heart {
+      font-size: 14px;
+      color: #ec407a;
+    }
+
+    .badge {
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      font-size: 11px;
+      background: #d81b60;
+      color: white;
+      padding: 2px 5px;
+      border-radius: 8px;
+    }
+
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    /* 卡片展示样式 */
+    .handbook-entry {
+      max-width: 800px;
+      margin: 0 auto 20px;
+      background: #fff;
+      border-left: 6px solid #ec407a;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .handbook-title {
+      padding: 14px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #ffe3ec;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    .handbook-content {
+      display: none;
+      padding: 20px;
+      line-height: 1.7;
+    }
+
+    .handbook-content img {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .caption {
+      margin-bottom: 20px;
+      font-size: 15px;
+      color: #555;
+    }
+
+    .section-title {
+      margin-top: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #d81b60;
+      border-bottom: 2px dashed #f8bbd0;
+      padding-bottom: 6px;
+    }
+
+    .card {
+      background: #fffafc;
+      border: 1.5px solid #f8bbd0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+.set-cover-btn {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  background-color: #f8bbd0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.set-cover-btn:hover {
+  background-color: #ec407a;
+}
+
+#floating-covers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.floating-cover {
+  width: 100px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: fixed;
+  animation: float-sway 3s ease-in-out infinite;
+  opacity: 0.9;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.floating-cover.left {
+  top: 60px;
+  left: 30px;
+  animation-delay: 0s;
+}
+
+.floating-cover.right {
+  bottom: 60px;
+  right: 30px;
+  animation-delay: 1.5s;
+}
+
+@keyframes float-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* 封面弹窗 */
+#cover-preview {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+#cover-preview img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.home-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, #ffa0c5, #e880b8);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+  transition: transform 0.2s ease, background 0.3s ease;
+  z-index: 999;
+}
+.home-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff82bb, #dd6da9);
+}
+
+  </style>
+</head>
+<body>
+  
+  <h1>心动手帐图图本</h1>
+
+  <div class="calendar-container">
+    <div class="calendar-header" style="text-align:center; margin-bottom: 10px;">
+      <h3 id="calendar-title" style="margin-bottom: 10px;">年份 月份</h3>
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px;">
+        <label>年份：
+          <select id="yearSelect"></select>
+        </label>
+        <label>月份：
+          <select id="monthSelect">
+            <option value="0">1 月</option>
+            <option value="1">2 月</option>
+            <option value="2">3 月</option>
+            <option value="3">4 月</option>
+            <option value="4">5 月</option>
+            <option value="5">6 月</option>
+            <option value="6">7 月</option>
+            <option value="7">8 月</option>
+            <option value="8">9 月</option>
+            <option value="9">10 月</option>
+            <option value="10">11 月</option>
+            <option value="11">12 月</option>
+          </select>
+        </label>
+        <button id="prevMonth">← 上个月</button>
+        <button id="nextMonth">下个月 →</button>
+        <button id="resetView">全部恢复</button>
+      </div>
+    </div>
+  
+    <div class="weekdays">
+      <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+    </div>
+    <div id="calendar"></div>
+  </div>
+  
+  <div id="handbook-container"></div>
+
+
+  <script>
+    const container = document.getElementById("handbook-container");
+    const calendar = document.getElementById("calendar");
+  
+    const files = [
+      "2025-04-09.html",
+      "2025-04-10.html",
+      "2025-04-11.html",
+      "2025-04-12.html",
+      "2025-04-13.html",
+      "2025-04-14.html",
+      "2025-04-15.html",
+      "2025-04-16.html",
+      "2025-04-17.html",
+      "2025-04-18.html",
+      "2025-04-19.html",
+      "2025-04-20.html",
+      "2025-04-21.html",
+      "2025-04-22.html",
+      "2025-04-24.html",
+      "2025-04-25.html",
+      "2025-04-26.html",
+      "2025-04-27.html",
+      "2025-04-28.html",
+      "2025-04-29.html",
+      "2025-04-30.html",
+      "2025-05-01.html",
+      "2025-05-02.html",
+      "2025-05-03.html",
+      "2025-05-04.html",
+      "2025-05-05.html",
+      "2025-05-06.html",
+      "2025-05-07.html",
+      "2025-05-08.html",
+      "2025-05-09.html",
+      "2025-05-10.html",
+      "2025-05-11.html",
+      "2025-05-12.html",
+      "2025-05-13.html",
+      "2025-05-14.html",
+      "2025-05-15.html",
+      "2025-05-16.html",
+      "2025-05-17.html",
+      "2025-05-18.html",
+      "2025-05-19.html",
+      "2025-05-20.html",
+      "2025-05-21.html",
+      "2025-05-22.html",
+    ];
+  
+    const fileDates = files.map(file => file.slice(0, 10));
+    const fileMap = {};
+    files.forEach(file => {
+      const date = file.slice(0, 10);
+      if (!fileMap[date]) fileMap[date] = 0;
+      fileMap[date]++;
+    });
+  
+    const today = new Date();
+    let viewYear = today.getFullYear();
+    let viewMonth = today.getMonth(); // 0-based
+
+    const title = document.getElementById("calendar-title");
+const yearSelect = document.getElementById("yearSelect");
+const monthSelect = document.getElementById("monthSelect");
+const resetBtn = document.getElementById("resetView");
+
+for (let y = 2024; y <= 2026; y++) {
+  const opt = document.createElement("option");
+  opt.value = y;
+  opt.textContent = y + " 年";
+  yearSelect.appendChild(opt);
+}
+
+yearSelect.value = viewYear;
+monthSelect.value = viewMonth;
+
+yearSelect.addEventListener("change", () => {
+  viewYear = parseInt(yearSelect.value);
+  renderCalendar();
+});
+
+monthSelect.addEventListener("change", () => {
+  viewMonth = parseInt(monthSelect.value);
+  renderCalendar();
+});
+
+document.getElementById("prevMonth").onclick = () => {
+  viewMonth--;
+  if (viewMonth < 0) {
+    viewMonth = 11;
+    viewYear--;
+  }
+  yearSelect.value = viewYear;
+  monthSelect.value = viewMonth;
+  renderCalendar();
+};
+
+document.getElementById("nextMonth").onclick = () => {
+  viewMonth++;
+  if (viewMonth > 11) {
+    viewMonth = 0;
+    viewYear++;
+  }
+  yearSelect.value = viewYear;
+  monthSelect.value = viewMonth;
+  renderCalendar();
+};
+
+resetBtn.onclick = () => {
+  document.querySelectorAll(".handbook-entry").forEach(e => {
+    e.style.display = "block";
+    e.querySelector(".handbook-content").style.display = "none";
+  });
+};
+
+  
+    const renderCalendar = () => {
+      calendar.innerHTML = "";
+      title.textContent = `${viewYear}年 ${viewMonth + 1}月`;
+
+  
+      const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  
+      const weekdaysRow = document.querySelector(".weekdays");
+      if (!weekdaysRow.querySelector(".month-nav")) {
+        const navRow = document.createElement("div");
+        navRow.classList.add("month-nav");
+        navRow.style.gridColumn = "span 7";
+        navRow.style.display = "flex";
+        navRow.style.justifyContent = "space-between";
+        navRow.style.marginBottom = "12px";
+  
+        const prevBtn = document.createElement("button");
+        prevBtn.textContent = "← 上个月";
+        prevBtn.onclick = () => {
+          viewMonth--;
+          if (viewMonth < 0) {
+            viewMonth = 11;
+            viewYear--;
+          }
+          renderCalendar();
+        };
+  
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = "下个月 →";
+        nextBtn.onclick = () => {
+          viewMonth++;
+          if (viewMonth > 11) {
+            viewMonth = 0;
+            viewYear++;
+          }
+          renderCalendar();
+        };
+  
+        const resetBtn = document.createElement("button");
+        resetBtn.textContent = "全部恢复";
+        resetBtn.onclick = () => {
+          document.querySelectorAll(".handbook-entry").forEach(e => {
+            e.style.display = "block";
+            e.querySelector(".handbook-content").style.display = "none";
+          });
+        };
+  
+        [prevBtn, resetBtn, nextBtn].forEach(btn => {
+          btn.style.padding = "6px 10px";
+          btn.style.border = "none";
+          btn.style.borderRadius = "8px";
+          btn.style.background = "#f8bbd0";
+          btn.style.color = "#fff";
+          btn.style.cursor = "pointer";
+          btn.style.fontSize = "14px";
+        });
+  
+        navRow.appendChild(prevBtn);
+        navRow.appendChild(resetBtn);
+        navRow.appendChild(nextBtn);
+        weekdaysRow.appendChild(navRow);
+      }
+  
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement("div");
+        calendar.appendChild(empty);
+      }
+  
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dayBox = document.createElement("div");
+        dayBox.classList.add("calendar-day");
+        const dateStr = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        dayBox.textContent = d;
+  
+        // 高亮今天
+        if (
+          today.getFullYear() === viewYear &&
+          today.getMonth() === viewMonth &&
+          today.getDate() === d
+        ) {
+          dayBox.style.border = "2px solid #ec407a";
+        }
+  
+        if (fileMap[dateStr]) {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+          heart.innerHTML = "❤️";
+          dayBox.appendChild(heart);
+  
+          if (fileMap[dateStr] > 1) {
+            const badge = document.createElement("div");
+            badge.classList.add("badge");
+            badge.textContent = `×${fileMap[dateStr]}`;
+            dayBox.appendChild(badge);
+          }
+  
+          dayBox.addEventListener("click", () => {
+            document.querySelectorAll(".handbook-entry").forEach(entry => {
+              const date = entry.getAttribute("data-date");
+              if (date === dateStr) {
+                entry.style.display = "block";
+                entry.querySelector(".handbook-content").style.display = "block";
+                entry.scrollIntoView({ behavior: "smooth" });
+              } else {
+                entry.style.display = "none";
+              }
+            });
+          });
+        }
+  
+        calendar.appendChild(dayBox);
+      }
+    };
+  
+    const loadHandbooks = async () => {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const res = await fetch(`handbooks/${file}`);
+        const html = await res.text();
+  
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("handbook-entry");
+  
+        const title = document.createElement("div");
+        title.classList.add("handbook-title");
+  
+        const date = file.slice(0, 10);
+        title.textContent = `${date} · 心动记录`;
+  
+        const content = document.createElement("div");
+        content.classList.add("handbook-content");
+        content.innerHTML = html;
+  
+        title.addEventListener("click", () => {
+          content.style.display = content.style.display === "block" ? "none" : "block";
+        });
+  
+        wrapper.setAttribute("data-date", date);
+        wrapper.appendChild(title);
+        wrapper.appendChild(content);
+        container.appendChild(wrapper);
+      }
+  
+      renderCalendar();
+      updateFloatingCovers();
+    };
+  
+    loadHandbooks().then(() => {
+  insertCoverButtons();
+});
+
+
+    // 封面展示逻辑
+function getCurrentMonthKey() {
+  return `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}`;
+}
+
+// 添加“设为封面”按钮到每张图下方
+function insertCoverButtons() {
+  const images = document.querySelectorAll(".handbook-content img");
+  images.forEach(img => {
+    // 避免重复添加
+    if (img.nextElementSibling && img.nextElementSibling.classList.contains("set-cover-btn")) return;
+
+    const btn = document.createElement("button");
+    btn.className = "set-cover-btn";
+    btn.textContent = "设为本月封面";
+    btn.onclick = () => {
+      const key = getCurrentMonthKey();
+      localStorage.setItem(`cover-${key}`, img.src);
+      loadCover();
+    };
+    img.insertAdjacentElement("afterend", btn);
+  });
+}
+
+function previewCover() {
+  const key = getCurrentMonthKey();
+  const img = localStorage.getItem(`cover-${key}`);
+  if (img) {
+    document.getElementById("cover-preview-img").src = img;
+    document.getElementById("cover-preview").style.display = "flex";
+  }
+}
+
+function updateFloatingCovers() {
+  const thisKey = getCurrentMonthKey();
+  const lastKey = (() => {
+    let y = viewYear;
+    let m = viewMonth - 1;
+    if (m < 0) {
+      m = 11;
+      y -= 1;
+    }
+    return `${y}-${String(m + 1).padStart(2, '0')}`;
+  })();
+
+  const curImg = localStorage.getItem(`cover-${thisKey}`);
+  const prevImg = localStorage.getItem(`cover-${lastKey}`);
+
+  const curEl = document.getElementById("current-cover");
+  const prevEl = document.getElementById("prev-cover");
+
+  curEl.src = curImg || "";
+  curEl.style.display = curImg ? "block" : "none";
+
+  prevEl.src = prevImg || "";
+  prevEl.style.display = prevImg ? "block" : "none";
+}
+
+
+  </script>
+
+  <!-- 漂浮封面区 -->
+<div id="floating-covers">
+  <img id="prev-cover" class="floating-cover left" src="" alt="上月封面" />
+  <img id="current-cover" class="floating-cover right" src="" alt="本月封面" onclick="previewCover()" />
+</div>
+
+<!-- 放大预览弹窗 -->
+<div id="cover-preview" onclick="this.style.display='none'">
+  <img id="cover-preview-img" src="" />
+</div>
+
+<a href="index.html" class="home-button">回到主页</a>
+
+  </body>
+  </html>
+
+  
