@@ -1,6 +1,6 @@
 window.dashboardData = {
   "letters": 56,
-  "diary": 46,
+  "diary": 47,
   "secrets": 45,
-  "handbooks": 68
+  "handbooks": 72
 };
