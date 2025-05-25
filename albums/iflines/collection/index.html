@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <title>if线｜合集类</title>
+  <title>if线｜支线恋语 · 非典型恋爱故事收藏</title>
   <style>
     body {
       font-family: "Smiley Sans", sans-serif;
@@ -59,11 +59,32 @@
       border-radius: 4px;
       font-size: 12px;
     }
+    .tagline {
+  text-align: center;
+  font-size: 14px;
+  color: #a9487f;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.parallel-love {
+  text-align: center;
+  font-size: 14px;
+  color: #b077a3;
+  font-style: italic;
+  margin-top: 60px;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
   </style>
 </head>
 <body>
-  <h1>if线｜合集类</h1>
+  <h1>if线｜支线恋语 · 非典型恋爱故事收藏</h1>
+  
+  <h2 class="tagline">多样风格混合 · 未归类篇 · 设定试验场</h2>
   <div class="gallery" id="gallery"></div>
+  <p class="parallel-love">无论我们身处哪一个平行宇宙，我都会爱你一次——然后再次，永远。</p>
 
   <script>
     const folder = location.pathname.split("/").slice(-2, -1)[0];
@@ -115,6 +136,7 @@
       }
       localStorage.setItem(favoritesKey, JSON.stringify(favorites));
     }
+  
   </script>
 </body>
 </html>
