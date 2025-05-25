@@ -1,57 +1,37 @@
+document.addEventListener("DOMContentLoaded", () => {
+  if (!window.dashboardData) return;
 
-document.addEventListener("DOMContentLoaded", async () => {
-  // 留言统计（字数）
-  let totalNotesLength = 0;
-  if (typeof notesData === "object") {
-    for (const day in notesData) {
-      const messages = notesData[day];
-      messages.forEach(msg => {
-        totalNotesLength += msg.length;
-      });
-    }
-  }
-  const noteCard = document.querySelectorAll(".card")[2];
-  if (noteCard) {
-    noteCard.querySelector(".count").textContent = totalNotesLength;
-    noteCard.querySelector(".label").textContent = "字留言纸条";
-  }
+  const {
+    letters = 0,
+    diary = 0,
+    secrets = 0,
+    handbooks = 0,
+    notesWords = 0,
+  } = window.dashboardData;
 
-  // 文件夹统计封装
-  async function countFiles(path, ext) {
-    try {
-      const response = await fetch(path);
-      const text = await response.text();
-      const parser = new DOMParser();
-      const html = parser.parseFromString(text, "text/html");
-      const links = html.querySelectorAll("a");
-      let count = 0;
-      links.forEach(link => {
-        if (link.href.endsWith(ext)) count++;
-      });
-      return count;
-    } catch (e) {
-      console.warn("目录读取失败：", path);
-      return 0;
-    }
+  const cards = document.querySelectorAll(".card");
+  if (cards[0]) {
+    cards[0].querySelector(".count").textContent = letters;
+    cards[0].querySelector(".label").textContent = "封情书";
   }
 
-  // 情书封数
-  const letterCount = await countFiles("letters/", ".html");
-  const letterCard = document.querySelectorAll(".card")[0];
-  if (letterCard) letterCard.querySelector(".count").textContent = letterCount;
+  if (cards[1]) {
+    cards[1].querySelector(".count").textContent = diary;
+    cards[1].querySelector(".label").textContent = "篇日记";
+  }
 
-  // 日记天数
-  const diaryCount = await countFiles("diary/", ".html");
-  const diaryCard = document.querySelectorAll(".card")[1];
-  if (diaryCard) diaryCard.querySelector(".count").textContent = diaryCount;
+  if (cards[3]) {
+    cards[3].querySelector(".count").textContent = notesWords;
+    cards[3].querySelector(".label").textContent = "字留言纸条";
+  }
 
-  // 悄悄话条数
-  const secretCount = await countFiles("secrets/", ".html");
-  const secretCard = document.querySelectorAll(".card")[3];
-  if (secretCard) secretCard.querySelector(".count").textContent = secretCount;
+  if (cards[3]) {
+    cards[3].querySelector(".count").textContent = secrets;
+    cards[3].querySelector(".label").textContent = "条悄悄话";
+  }
 
-  // 手帐图图数量
-  const handbookCount = await countFiles("handbooks/", ".png");
-  const handbookCard = document.querySelectorAll(".card")[4];
-  if (handbookCard) handbookCard.querySelector(".count").textContent = handbookCount;
+  if (cards[4]) {
+    cards[4].querySelector(".count").textContent = handbooks;
+    cards[4].querySelector(".label").textContent = "张手帐图图";
+  }
 });
