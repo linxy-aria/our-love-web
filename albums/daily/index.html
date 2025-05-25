@@ -60,6 +60,25 @@
       border-radius: 4px;
       font-size: 12px;
     }
+    /* 放大图样式 */
+#lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255,255,255,0.5);
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
@@ -89,7 +108,7 @@
 
       div.innerHTML = `
         ${isCover ? '<div class="cover-label">封面</div>' : ""}
-        <img src="${filename}" alt="">
+        <img src="${filename}" alt="" onclick="previewImage('${filename}')">
         <div class="actions">
           <button onclick="setCover('${filename}')">设为封面</button>
           <button class="favorite" onclick="toggleFavorite(this, '${filename}')">${isFavorite ? "取消收藏" : "点击收藏"}</button>
@@ -115,6 +134,16 @@
       }
       localStorage.setItem(favoritesKey, JSON.stringify(favorites));
     }
+    function previewImage(filename) {
+  const lightbox = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  img.src = filename;
+  lightbox.style.display = "flex";
+}
   </script>
+  <!-- 放大图弹窗容器 -->
+<div id="lightbox" onclick="this.style.display='none'">
+  <img id="lightbox-img" src="" alt="preview">
+</div>
 </body>
 </html>
