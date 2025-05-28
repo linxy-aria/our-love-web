@@ -71,38 +71,40 @@
 <body>
   <h1>林太太和林先生的小世界</h1>
 
-  <div class="card-container">
-    <div class="card">
-      <div class="count">…</div>
-      <div class="label">封情书</div>
-      <a href="letters.html" class="btn">去看看</a>
-    </div>
+<div class="card-container">
 
-    <div class="card">
-      <div class="count">…</div>
-      <div class="label">篇日记</div>
-      <a href="diary.html" class="btn">去翻翻</a>
-    </div>
-
-    <div class="card">
-      <div class="count">...</div>
-      <div class="label">留言纸条</div>
-      <a href="notes.html" class="btn">来看一看</a>
-    </div>
-
-    <div class="card">
-      <div class="count">…</div>
-      <div class="label">天悄悄话</div>
-      <a href="secret.html" class="btn">偷偷读</a>
-    </div>
-
-    <div class="card">
-      <div class="count">…</div>
-      <div class="label">张手帐图图</div>
-      <a href="handbooks.html" class="btn">进入画室</a>
-    </div>
-
+  <div class="card">
+    <div class="count" id="letters-count">…</div>
+    <div class="label">封情书</div>
+    <a href="letters.html" class="btn">去看看</a>
   </div>
+
+  <div class="card">
+    <div class="count" id="diary-count">…</div>
+    <div class="label">篇日记</div>
+    <a href="diary.html" class="btn">去翻翻</a>
+  </div>
+
+  <div class="card">
+    <div class="count" id="notes-length">…</div>
+    <div class="label">字留言纸条</div>
+    <a href="notes.html" class="btn">来看一看</a>
+  </div>
+
+  <div class="card">
+    <div class="count" id="secrets-days">…</div>
+    <div class="label">天悄悄话</div>
+    <a href="secret.html" class="btn">偷偷读</a>
+  </div>
+
+  <div class="card">
+    <div class="count" id="handbooks-count">…</div>
+    <div class="label">张手帐图图</div>
+    <a href="handbooks.html" class="btn">进入画室</a>
+  </div>
+
+</div>
+
 
   <div class="footer">
     “写下的每一个字，都是我们在一起的证据。”<br>
@@ -110,48 +112,7 @@
   </div>
 
   <script src="notes.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // 1. 自动统计留言字数（notes.js 中 notesData 结构）
-  let totalNotesLength = 0;
-  if (typeof notesData === "object") {
-    for (const day in notesData) {
-      const messages = notesData[day];
-      messages.forEach(msg => {
-        totalNotesLength += msg.length;
-      });
-    }
-  }
-
-  // 2. 自动填入留言字数
-  const noteCard = document.querySelectorAll(".card")[2];
-  if (noteCard) {
-    const countDiv = noteCard.querySelector(".count");
-    const labelDiv = noteCard.querySelector(".label");
-    countDiv.textContent = totalNotesLength;
-    labelDiv.textContent = "字留言纸条";
-  }
-
-  // 可拓展模块（可手动补上 fetch() 或读取方式）：
-  // TODO：情书、日记、悄悄话、手帐 可用后续本地存储 + Node 扫描目录
-});
-</script>
-
-<script src="dashboard-data.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    if (window.dashboardData) {
-      const { letters, diary, secrets, handbooks } = window.dashboardData;
-
-      document.querySelectorAll(".card")[0].querySelector(".count").textContent = letters;
-      document.querySelectorAll(".card")[1].querySelector(".count").textContent = diary;
-      document.querySelectorAll(".card")[3].querySelector(".count").textContent = secrets;
-      document.querySelectorAll(".card")[4].querySelector(".count").textContent = handbooks;
-    }
-  });
-</script>
-
-<script src="dashboard-script.js"></script>
+  <script src="dashboard-script-final.js"></script>
 
 </body>
 </html>
