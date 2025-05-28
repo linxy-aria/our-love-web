@@ -107,7 +107,7 @@ folders.forEach(({ folder, title }) => {
   // 读取设为封面记录
   const coverKey = "cover_" + folder;
   const savedCover = localStorage.getItem(coverKey);
-  const coverPath = savedCover ? `${folder}/${savedCover}` : `${folder}/cover.png`;
+  const coverPath = savedCover ? `${folder}/${savedCover}` : `${folder}/cover.jpg`;
 
   const img = document.createElement("img");
   img.className = "photo-img";
