@@ -128,7 +128,7 @@
 
     albums.forEach(({ key, title }) => {
       const userCover = localStorage.getItem("cover_" + key);
-      const defaultCover = `albums/${key}/cover.png`;
+      const defaultCover = `albums/${key}/cover.jpg`;
       const cover = userCover ? `albums/${key}/${userCover}` : null;
       const url = `albums/${key}/index.html`;
 
